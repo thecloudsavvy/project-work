@@ -1,0 +1,107 @@
+*{
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Helvetica;
+}
+
+.error-msg{
+	padding: 1em;
+	color: white;
+	background-color: red;
+	margin-top: 1em;
+}
+
+.container{
+	height: 100vh;
+	width: 100%;
+	background-color: #ccc;
+}
+
+.navbar{
+	width: 100%;
+	height: 4em;
+	color: white;
+	background: brown;
+	display: flex;
+	padding: 1.2em;
+}
+
+.nav-items{
+	display: flex;
+	list-style-type: none;
+	width: 100%;
+}
+
+.nav-item + .nav-item{
+	margin-left: 1em;
+}
+
+.nav-item:last-child{
+	margin-left: auto;
+	border-bottom: 1px solid black;
+	padding-right: 0;
+	padding-top: .3em;
+}
+
+.nav-item:last-child:hover{
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.main{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+
+}
+
+.card{
+	margin-top: 3em;
+	display: flex;
+	width: 50%;
+}
+
+/**
+ * Forms
+ */
+
+.form-group{
+	margin-top: 1em;
+}
+
+.form-div{
+	width: 75%;
+}
+
+.form-image{
+	width: 25%;
+}
+
+.form-image img{
+	width: 200%;
+	margin-top: 5em;
+	margin-left: -5em;
+}
+
+input[type='text'], input[type='email'], input[type='password']{
+	height: 3em;
+	width: 300px;
+	display: block;
+}
+
+.submit-btn{
+	background: black;
+	color: white;
+	font-weight: 700;
+	outline: none;
+	border: none;
+	box-shadow: grey 2px 2px;
+}
+
+button.submit-btn, button.normal-btn{
+	height: 3em;
+
+}
+
+
