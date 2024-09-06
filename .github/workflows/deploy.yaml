@@ -1,0 +1,73 @@
+name: shopping-deployment
+on: 
+  push: 
+    branches:
+       - master
+jobs:
+  build:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: generate random tag number
+        run: |
+              echo "VERSION=${RANDOM}" >> $GITHUB_ENV 
+
+      - name: Logging into Docker Hub
+        uses: docker/login-action@v3
+        with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: "Build the image for the App"
+        env:
+          IMAGE_NAME: shopping
+          USERNAME: abatan
+        run: |
+            docker build -t $USERNAME/$IMAGE_NAME:${{ env.VERSION }} .
+            docker push $USERNAME/$IMAGE_NAME:${{ env.VERSION }}
+
+      - name: "Install kubectl"
+        uses: azure/setup-kubectl@v3
+        with: 
+          version: "v1.19.3"
+        id: "install-kubectl"
+
+      - name: "Setup AWS Credentials"
+        uses: aws-actions/configure-aws-credentials@v4
+        with: 
+          aws-region: "us-east-1"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key:  ${{ secrets.AWS_SECRET_KEY }}
+
+      - name: "Connect to the cluster"
+        run: |
+          aws eks update-kubeconfig --name my-cluster
+
+      
+      - name: "Install Helm"
+        uses: azure/setup-helm@v4.2.0
+        id: "install-helm"
+
+      - name: "Use helm to install our charts"
+        run: |
+          helm upgrade --install myapp myapp -f shopping/values.yaml --set image.tag=${{ env.VERSION }} --set replicaCount=3
+
+      - name: "Announce the latest version of the deployment"
+        uses: dawidd6/action-send-mail@v3
+        with:
+          username: thecloudsavvy@gmail.com
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          subject: "New Docker Image Version for Simple Web App"
+          to: "taiwoabatan66@gmail.com"
+          from: Abatan taiwo <thecloudsavvy@gmail.com>
+          body: "New image build: ${{ env.APP_VERSION }}"
+      
+
+      
+
+      
