@@ -3,6 +3,12 @@ on:
   push: 
     branches:
        - master
+    paths-ignore:
+      - 'README.md'
+      - 'charts/**'
+      - 'Dockerfile'
+      - 'images/**'
+      - 'sonar-project.properties'
 jobs:
   build:
       runs-on: ubuntu-latest
