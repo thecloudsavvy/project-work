@@ -32,6 +32,6 @@ spec:
 
   tls:
       - hosts:
-          - shopping.thecloudsavvy.online
+          - shopper.healerkay.online
           - phpmyadmin.thecloudsavvy.online
         secretName: tls-2048-bloggin
