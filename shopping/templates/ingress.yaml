@@ -9,7 +9,7 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host: shopping.thecloudsavvy.online
+  - host: shopper.healerkay.online
     http:
       paths:
       - pathType: Prefix
