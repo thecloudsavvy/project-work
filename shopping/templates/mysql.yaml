@@ -30,12 +30,12 @@ spec:
         - name: MYSQL_ROOT_USER
           value: root
         volumeMounts:
-        - name: mysql-data
+        - name: new-data
           mountPath: /var/lib/mysql
       volumes:
-        - name: mysql-data
+        - name: new-data
           persistentVolumeClaim:
-            claimName: mysql-data
+            claimName: new-data
     
 
 

@@ -9,30 +9,32 @@ on:
       - 'Dockerfile'
       - 'images/**'
       - 'sonar-project.properties'
+
 jobs:
   build:
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-      steps:
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: generate random tag number
+      - name: Generate random tag number
         run: |
-              echo "VERSION=${RANDOM}" >> $GITHUB_ENV 
+          echo "VERSION=${RANDOM}" >> $GITHUB_ENV 
 
       - name: Logging into Docker Hub
         uses: docker/login-action@v3
         with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: "Build the image for the App"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: "Build and Push Docker Image"
         env:
           IMAGE_NAME: shopping
           USERNAME: abatan
         run: |
-            docker build -t $USERNAME/$IMAGE_NAME:${{ env.VERSION }} .
-            docker push $USERNAME/$IMAGE_NAME:${{ env.VERSION }}
+          docker build -t $USERNAME/$IMAGE_NAME:${{ env.VERSION }} .
+          docker push $USERNAME/$IMAGE_NAME:${{ env.VERSION }}
 
       - name: "Install kubectl"
         uses: azure/setup-kubectl@v3
@@ -45,22 +47,23 @@ jobs:
         with: 
           aws-region: "us-east-1"
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key:  ${{ secrets.AWS_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
 
-      - name: "Connect to the cluster"
+      - name: "Connect to the EKS Cluster"
         run: |
-          aws eks update-kubeconfig --name my-cluster
+          aws eks update-kubeconfig --name cluster
 
-      
       - name: "Install Helm"
         uses: azure/setup-helm@v4.2.0
         id: "install-helm"
 
-      - name: "Use helm to install our charts"
+      - name: "Deploy Application via Helm"
         run: |
-          helm upgrade --install myapp myapp -f shopping/values.yaml --set image.tag=${{ env.VERSION }} --set replicaCount=3
+          helm upgrade --install shopping-app shopping/ -f shopping/values.yaml \
+            --set image.tag=${{ env.VERSION }} \
+            --set replicaCount=3
 
-      - name: "Announce the latest version of the deployment"
+      - name: "Announce the Latest Deployment Version"
         uses: dawidd6/action-send-mail@v3
         with:
           username: thecloudsavvy@gmail.com
@@ -68,10 +71,11 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
-          subject: "New Docker Image Version for Simple Web App"
+          subject: "New Docker Image Version for Shopping Web App"
           to: "taiwoabatan66@gmail.com"
           from: Abatan taiwo <thecloudsavvy@gmail.com>
-          body: "New image build: ${{ env.APP_VERSION }}"
+          body: "New image build: ${{ env.VERSION }}"
+
       
 
       
