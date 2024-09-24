@@ -66,14 +66,14 @@ jobs:
       - name: "Announce the Latest Deployment Version"
         uses: dawidd6/action-send-mail@v3
         with:
-          username: thecloudsavvy@gmail.com
+          username: taiwoabatan1999@gmail.com
           password: ${{ secrets.EMAIL_PASSWORD }}
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
           subject: "New Docker Image Version for Shopping Web App"
           to: "taiwoabatan66@gmail.com"
-          from: Abatan taiwo <thecloudsavvy@gmail.com>
+          from: Abatan taiwo <taiwoabatan1999@gmail.com>
           body: "New image build: ${{ env.VERSION }}"
 
       
