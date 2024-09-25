@@ -59,7 +59,23 @@ Continous deployment/delivery - using gitops tool (ArgoCD)
 
 ![relatives](./images/Screenshot%202024-08-25%20at%2020.06.08.png)
 
+
+Code quality check - Sonarqube  
+
+
+![relatives](./images/Screenshot%202024-09-24%20at%2021.47.07.png)
+
+
+
+Continous Monitoring - Prometheus && grafana  
+
+
+![relatives](./images/Screenshot%202024-09-25%20at%2000.47.51.png)  
+
+
 Project status
-project is complete
-Contact
+project is complete  
+
+Contact  
+
 Created by @Thecloudsavvy - feel free to contact me!#

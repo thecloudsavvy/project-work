@@ -9,7 +9,7 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host: shopper.healerkay.online
+  - host: shopping.thecloudsavvy.online
     http:
       paths:
       - pathType: Prefix
@@ -32,6 +32,6 @@ spec:
 
   tls:
       - hosts:
-          - shopper.healerkay.online
+          - shopping.thecloudsavvy.online
           - phpmyadmin.thecloudsavvy.online
         secretName: tls-2048-bloggin
